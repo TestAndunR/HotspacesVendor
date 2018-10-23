@@ -1,0 +1,1 @@
+# HotspacesVendor
