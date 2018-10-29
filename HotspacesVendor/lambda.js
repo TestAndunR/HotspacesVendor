@@ -1,43 +1,54 @@
 let AWS = require('aws-sdk');
-const ddb = new AWS.DynamoDB.DocumentClient();
+let dynamoDBService = require('./dynamoDbService');
 
 exports.handler = function (event, context, callback) {
-    let promoId = event.body.promoId;
-    let vendorId = event.body.vendorId;
-    let offerType = event.body.offerType;
-    let startDate = event.body.startDate;
-    let endDate = event.body.endDate;
-    let startTimeSlots = event.body.startTimeSlots;
-    let endTimeSlots = event.body.endTimeSlots;
-    let description = event.body.description;
-    let title = event.body.title;
-    let unitPrice = event.body.unitPrice;
-    let imgUrl = event.body.imgUrl;
+    console.log(event);
+    let promoId = event.promoId;
+    let vendorId = event.vendorId;
+    let offerType = event.offerType;
+    let startDate = event.startDate;
+    let endDate = event.endDate;
+    let startTimeSlots = event.startTimeSlots;
+    let endTimeSlots = event.endTimeSlots;
+    let description = event.description;
+    let title = event.title;
+    let unitPrice = event.unitPrice;
+    let imgUrl = event.imgUrl;
 
-    ddb.put({
-        TableName: 'Promotions',
-        Item: {
-            'PromoId': promoId,
-            'VendorId': vendorId,
-            'OfferType': offerType,
-            'StartDate': startDate,
-            'EndDate': endDate,
-            'StartTimeSlots': startTimeSlots,
-            'EndTimeSlots': endTimeSlots,
-            'Description': description,
-            'UnitPrice': unitPrice,
-            'Title': title,
-            'ImgUrl': imgUrl
-        }
-    }).promise().then(function (data) {
-        console.log("Success " + data)
-        //your logic goes here
-    }).catch(function (err) {
-        //handle error
-        console.log("Error" + err)
+    dynamoDBService.addPromo({
+        promoId: promoId,
+        vendorId: vendorId,
+        offerType: offerType,
+        startDate: startDate,
+        endDate: endDate,
+        startTimeSlots: startTimeSlots,
+        endTimeSlots: endTimeSlots,
+        description: description,
+        title: title,
+        unitPrice: unitPrice,
+        imgUrl: imgUrl
+    }).promise().then(function () {
+        callback(null, {
+            "isBase64Encoded": true,
+            "statusCode": 200,
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*"
+            },
+            "body": 'Successfully added promotion : ' + title
+        });
+    }).catch(function (error) {
+        console.log(error);
+        callback(null, {
+            "isBase64Encoded": true,
+            "statusCode": 502,
+            "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "*"
+            },
+            "body": 'user could not add the promotion ' + error.message
+        });
     });
-
-    callback(null, 'Successfully executed');
 }
 
 
