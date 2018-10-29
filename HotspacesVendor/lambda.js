@@ -12,10 +12,23 @@ exports.handler = function (event, context, callback) {
     let description = event.body.description;
     let title = event.body.title;
     let unitPrice = event.body.unitPrice;
+    let imgUrl = event.body.imgUrl;
 
     ddb.put({
         TableName: 'Promotions',
-        Item: { 'PromoId': promoId, 'VendorId': vendorId, 'OfferType': offerType, 'StartDate': startDate, 'EndDate': endDate, 'StartTimeSlots': startTimeSlots, 'EndTimeSlots': endTimeSlots, 'Description': description, 'UnitPrice': unitPrice, 'Title': title }
+        Item: {
+            'PromoId': promoId,
+            'VendorId': vendorId,
+            'OfferType': offerType,
+            'StartDate': startDate,
+            'EndDate': endDate,
+            'StartTimeSlots': startTimeSlots,
+            'EndTimeSlots': endTimeSlots,
+            'Description': description,
+            'UnitPrice': unitPrice,
+            'Title': title,
+            'ImgUrl': imgUrl
+        }
     }).promise().then(function (data) {
         console.log("Success " + data)
         //your logic goes here
