@@ -1,5 +1,5 @@
 let AWS = require('aws-sdk');
-let dynamoDBService = require('./dynamoDbService');
+const ddb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = function (event, context, callback) {
     console.log(event);
@@ -15,40 +15,30 @@ exports.handler = function (event, context, callback) {
     let unitPrice = event.unitPrice;
     let imgUrl = event.imgUrl;
 
-    dynamoDBService.addPromo({
-        promoId: promoId,
-        vendorId: vendorId,
-        offerType: offerType,
-        startDate: startDate,
-        endDate: endDate,
-        startTimeSlots: startTimeSlots,
-        endTimeSlots: endTimeSlots,
-        description: description,
-        title: title,
-        unitPrice: unitPrice,
-        imgUrl: imgUrl
-    }).promise().then(function () {
-        callback(null, {
-            "isBase64Encoded": true,
-            "statusCode": 200,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "*"
-            },
-            "body": 'Successfully added promotion : ' + title
-        });
-    }).catch(function (error) {
-        console.log(error);
-        callback(null, {
-            "isBase64Encoded": true,
-            "statusCode": 502,
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "*"
-            },
-            "body": 'user could not add the promotion ' + error.message
-        });
+    ddb.put({
+        TableName: 'Promotions',
+        Item: {
+            'PromoId': promoId,
+            'VendorId': vendorId,
+            'OfferType': offerType,
+            'StartDate': startDate,
+            'EndDate': endDate,
+            'StartTimeSlots': startTimeSlots,
+            'EndTimeSlots': endTimeSlots,
+            'Description': description,
+            'UnitPrice': unitPrice,
+            'Title': title,
+            'ImgUrl': imgUrl
+        }
+    }).promise().then(function (data) {
+        console.log("Success " + data)
+        //your logic goes here
+    }).catch(function (err) {
+        //handle error
+        console.log("Error" + err)
     });
+
+    callback(null, 'Successfully executed');
 }
 
 
