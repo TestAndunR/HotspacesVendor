@@ -6,6 +6,7 @@ exports.handler = function (event, context, callback) {
     let promoId = event.promoId;
     let vendorId = event.vendorId;
     let offerType = event.offerType;
+    let discount = event.discount;
     let startDate = event.startDate;
     let endDate = event.endDate;
     let startTimeSlots = event.startTimeSlots;
@@ -28,7 +29,8 @@ exports.handler = function (event, context, callback) {
             'Description': description,
             'UnitPrice': unitPrice,
             'Title': title,
-            'ImgUrl': imgUrl
+            'ImgUrl': imgUrl,
+            'Discount': discount
         }
     }).promise().then(function (data) {
         console.log("Success " + data)
