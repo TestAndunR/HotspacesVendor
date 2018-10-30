@@ -1,5 +1,7 @@
 {
   "name": "HotspacesVendor",
   "version": "1.0.0",
-  "dependencies": {}
+  "dependencies": {
+    "uuid": "3.3.2"
+  }
 }
