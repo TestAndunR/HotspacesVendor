@@ -3,11 +3,12 @@ const ddb = new AWS.DynamoDB.DocumentClient();
 
 exports.handler = function (event, context, callback) {
     let body = JSON.parse(event.body);
-    let vendor = body.vendorId;
+    let vendor = event.vendorId;
+    // console.log(vendor);
     ddb.scan({
         TableName: 'Promotions',
         ExpressionAttributeValues: {
-            ':vendor': vendor
+            ':vendor': "c1fdc7d1-7c7f-48e1-9529-1b46378f90ce"
         },
         FilterExpression: 'VendorId = :vendor'
     }).promise().then(function (data) {
@@ -21,8 +22,6 @@ exports.handler = function (event, context, callback) {
             "body": JSON.stringify(data.Items)
         });
     }).catch(function (err) {
-        //handle error
-        // console.log(err);
         callback(null, {
             "isBase64Encoded": true,
             "statusCode": 502,
@@ -33,6 +32,4 @@ exports.handler = function (event, context, callback) {
             "body": 'Error occured in scanning ' + error.message
         });
     });
-    // console.log(event);
-    // callback(null, 'Successfully executed');
 }
