@@ -8,7 +8,7 @@ exports.handler = function (event, context, callback) {
     ddb.scan({
         TableName: 'Promotions',
         ExpressionAttributeValues: {
-            ':vendor': "c1fdc7d1-7c7f-48e1-9529-1b46378f90ce"
+            ':vendor': vendor
         },
         FilterExpression: 'VendorId = :vendor'
     }).promise().then(function (data) {

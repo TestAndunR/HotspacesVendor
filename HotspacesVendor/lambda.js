@@ -3,7 +3,7 @@ const ddb = new AWS.DynamoDB.DocumentClient();
 const uuidv4 = require('uuid/v4');
 
 exports.handler = function (event, context, callback) {
-    console.log(event);
+    console.log("event", event);
     // let body = JSON.parse(event.body);
     let promoId = uuidv4();
     let vendorId = event.vendorId;
