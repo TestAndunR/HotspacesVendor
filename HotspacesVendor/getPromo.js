@@ -12,7 +12,6 @@ exports.handler = function (event, context, callback) {
         },
         FilterExpression: 'VendorId = :vendor'
     }).promise().then(function (data) {
-        console.log("GetVendor");
         callback(null, {
             "isBase64Encoded": true,
             "statusCode": 200,
