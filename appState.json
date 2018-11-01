@@ -24,7 +24,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/lambda.js",
-        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\nconst uuidv4 = require('uuid/v4');\n\nexports.handler = function (event, context, callback) {\n    console.log(\"event\", event);\n    // let body = JSON.parse(event.body);\n    let promoId = uuidv4();\n    let vendorId = event.vendorId;\n    let offerType = event.offerType;\n    let discount = event.discount;\n    let startDate = event.startDate;\n    let endDate = event.endDate;\n    let startTimeSlots = event.startTimeSlots;\n    let endTimeSlots = event.endTimeSlots;\n    let description = event.description;\n    let title = event.title;\n    let unitPrice = event.unitPrice;\n    let imgUrl = event.imgUrl;\n\n    ddb.put({\n        TableName: 'Promotions',\n        Item: {\n            'PromoId': promoId,\n            'VendorId': vendorId,\n            'OfferType': offerType,\n            'StartDate': startDate,\n            'EndDate': endDate,\n            'StartTimeSlots': startTimeSlots,\n            'EndTimeSlots': endTimeSlots,\n            'Description': description,\n            'UnitPrice': unitPrice,\n            'Title': title,\n            'ImgUrl': imgUrl,\n            'Discount': discount\n        }\n    }).promise().then(function (data) {\n        callback(null, {\n            \"isBase64Encoded\": true,\n            \"statusCode\": 200,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": 'Successfully added promotion'\n        });\n        // console.log(\"Success \" + data)\n        //your logic goes here\n    }).catch(function (err) {\n        //handle error\n        console.log(\"Error\" + err)\n        callback(null, {\n            \"isBase64Encoded\": true,\n            \"statusCode\": 502,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": 'Adding promotion to dynamoDB failed ' + error.message\n        });\n    });\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\nconst uuidv4 = require('uuid/v4');\n\nexports.handler = function (event, context, callback) {\n    console.log(\"event\", event);\n    let body = JSON.parse(event.body);\n    let promoId = uuidv4();\n    let vendorId = body.vendorId;\n    let offerType = body.offerType;\n    let discount = body.discount;\n    let startDate = body.startDate;\n    let endDate = body.endDate;\n    let startTimeSlots = body.startTimeSlots;\n    let endTimeSlots = body.endTimeSlots;\n    let description = body.description;\n    let title = body.title;\n    let unitPrice = body.unitPrice;\n    let imgUrl = body.imgUrl;\n\n    ddb.put({\n        TableName: 'Promotions',\n        Item: {\n            'PromoId': promoId,\n            'VendorId': vendorId,\n            'OfferType': offerType,\n            'StartDate': startDate,\n            'EndDate': endDate,\n            'StartTimeSlots': startTimeSlots,\n            'EndTimeSlots': endTimeSlots,\n            'Description': description,\n            'UnitPrice': unitPrice,\n            'Title': title,\n            'ImgUrl': imgUrl,\n            'Discount': discount\n        }\n    }).promise().then(function (data) {\n        callback(null, {\n            \"isBase64Encoded\": true,\n            \"statusCode\": 200,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": 'Successfully added promotion'\n        });\n        // console.log(\"Success \" + data)\n        //your logic goes here\n    }).catch(function (err) {\n        //handle error\n        console.log(\"Error\" + err)\n        callback(null, {\n            \"isBase64Encoded\": true,\n            \"statusCode\": 502,\n            \"headers\": {\n                \"Access-Control-Allow-Origin\": \"*\",\n                \"Access-Control-Allow-Methods\": \"*\"\n            },\n            \"body\": 'Adding promotion to dynamoDB failed ' + error.message\n        });\n    });\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
         "triggers": [
           {
             "resourceName": "apigusEast1addUserpromopost",
@@ -94,7 +94,7 @@
       "48a4b4d6-c751-4efe-afe4-921eb254a535",
       "b9b3322c-b75d-4484-93c2-c7083fe20a8d"
     ],
-    "currentFileId": "b9b3322c-b75d-4484-93c2-c7083fe20a8d",
+    "currentFileId": "48a4b4d6-c751-4efe-afe4-921eb254a535",
     "resources": {
       "ddbPromotions": {
         "name": "ddbPromotions",
@@ -140,21 +140,23 @@
           "existingResources": {
             "/qr": "464kbc",
             "/": "abft45wa04",
+            "/promo": "i4mnqy",
             "/vendor/list": "ld82px",
             "/vendor": "nyuvaj",
+            "/promo-qr": "sg99di",
             "/user": "topael"
           },
           "resourceMode": 0,
           "resourceName": "promo",
           "resourcePath": "/promo",
           "restMethod": "POST",
-          "proxyIntegration": false,
-          "enableCORS": false,
+          "proxyIntegration": true,
+          "enableCORS": true,
           "stageMode": 1,
           "stageName": "prod",
-          "stageDeploymentId": "s05w0l"
+          "stageDeploymentId": "jgokwg"
         },
-        "globallyEditable": true
+        "globallyEditable": false
       },
       "apigusEast1addUserpromoget": {
         "name": "apigusEast1addUserpromoget",
@@ -213,7 +215,7 @@
     "projectVersion": "1.0.0",
     "projectRegion": "us-east-1",
     "platform": "AWS",
-    "lastSave": 1541069040512
+    "lastSave": 1541069178533
   },
   "VCS_STATE": {
     "provider": "GitHub",
