@@ -1,5 +1,5 @@
 let AWS = require('aws-sdk');
-let uuId = require('uuid/v4')
+let uuidv4 = require('uuid/v4')
 let dynamoDBService = require('./dynamoDBService');
 
 exports.handler = function(event, context, callback) {
