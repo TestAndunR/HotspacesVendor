@@ -24,7 +24,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/addPromo.js",
-        "code": "let AWS = require('aws-sdk');\nconst uuidv4 = require('uuid/v4');\nlet dynamoDBService = require('./dynamoDBService');\n\nexports.handler = function(event, context, callback) {\n    \n    let body = JSON.parse(event.body);\n    let promoData = {\n        promoId : uuidv4(),\n        vendorId : body.vendorId,\n        offerType : body.offerType,\n        discount : body.discount,\n        startDate : body.startDate,\n        endDate : body.endDate,\n        selectedDays : body.selectedDays,\n        description : body.description,\n        title : body.title,\n        unitPrice : body.unitPrice,\n        imgUrl : body.imgUrls,\n        terms : body.terms,\n        businessType : body.businessType\n    };\n\n    dynamoDBService.addPromo(promoData).then(function (data) {\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 200,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": 'Successfully added vendor with name : ' + vendorName\n            });\n        }).catch(function (err) {\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 502,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": err.message\n            });\n        });\n        \n    callback(null,'Successfully executed');\n}",
+        "code": "let AWS = require('aws-sdk');\nconst uuidv4 = require('uuid/v4');\nlet dynamoDBService = require('./dynamoDbService');\n\nexports.handler = function(event, context, callback) {\n    \n    let body = JSON.parse(event.body);\n    let promoData = {\n        promoId : uuidv4(),\n        vendorId : body.vendorId,\n        offerType : body.offerType,\n        discount : body.discount,\n        startDate : body.startDate,\n        endDate : body.endDate,\n        selectedDays : body.selectedDays,\n        description : body.description,\n        title : body.title,\n        unitPrice : body.unitPrice,\n        imgUrl : body.imgUrls,\n        terms : body.terms,\n        businessType : body.businessType\n    };\n\n    dynamoDBService.addPromo(promoData).then(function (data) {\n        console.log(\"Success\", data);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 200,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": 'Successfully added vendor with name :'\n            });\n        }).catch(function (err) {\n            console.log(\"Error\", err);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 502,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": err.message\n            });\n        });\n        \n}",
         "triggers": [
           {
             "resourceName": "apigusEast1HSVendorpromopost",
@@ -95,14 +95,14 @@
       "b9b3322c-b75d-4484-93c2-c7083fe20a8d",
       "c1737e82-f2d7-4d78-83b9-5332ec5c6efd"
     ],
-    "currentFileId": "48a4b4d6-c751-4efe-afe4-921eb254a535",
+    "currentFileId": "c1737e82-f2d7-4d78-83b9-5332ec5c6efd",
     "resources": {
       "ddbPromotions": {
         "name": "ddbPromotions",
         "type": "DynamoDB",
         "config": {
           "mode": 0,
-          "operation": "scan",
+          "operation": "put",
           "table": {
             "arn": "",
             "name": "Promotions",
@@ -115,10 +115,21 @@
           },
           "parameters": {
             "TableName": "Promotions",
-            "ExpressionAttributeValues": {
-              ":vendor": "@{vendor}"
-            },
-            "FilterExpression": "VendorId = :vendor"
+            "Item": {
+              "PromoId": "@{promoData.promoId}",
+              "VendorId": "@{promoData.vendorId}",
+              "OfferType": "@{promoData.offerType}",
+              "StartDate": "@{promoData.startDate}",
+              "EndDate": "@{promoData.endDate}",
+              "selectedDays": "@{promoData.selectedDays}",
+              "Description": "@{promoData.description}",
+              "UnitPrice": "@{promoData.unitPrice}",
+              "Title": "@{promoData.title}",
+              "ImgUrls": "@{promoData.imgUrls}",
+              "Discount": "@{promoData.discount}",
+              "Terms": "@{promoData.terms}",
+              "BusinessType": "@{promoData.businessType}"
+            }
           },
           "validator": {
             "validatableFields": {},
@@ -217,7 +228,7 @@
     "projectVersion": "1.0.0",
     "projectRegion": "us-east-1",
     "platform": "AWS",
-    "lastSave": 1541740429709
+    "lastSave": 1541741389238
   },
   "VCS_STATE": {
     "provider": "GitHub",

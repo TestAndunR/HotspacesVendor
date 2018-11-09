@@ -1,6 +1,6 @@
 let AWS = require('aws-sdk');
 const uuidv4 = require('uuid/v4');
-let dynamoDBService = require('./dynamoDBService');
+let dynamoDBService = require('./dynamoDbService');
 
 exports.handler = function(event, context, callback) {
     
@@ -22,6 +22,7 @@ exports.handler = function(event, context, callback) {
     };
 
     dynamoDBService.addPromo(promoData).then(function (data) {
+        console.log("Success", data);
             callback(null, {
                 "isBase64Encoded": true,
                 "statusCode": 200,
@@ -29,9 +30,10 @@ exports.handler = function(event, context, callback) {
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Methods": "*"
                 },
-                "body": 'Successfully added vendor with name : ' + vendorName
+                "body": 'Successfully added vendor with name :'
             });
         }).catch(function (err) {
+            console.log("Error", err);
             callback(null, {
                 "isBase64Encoded": true,
                 "statusCode": 502,
@@ -43,5 +45,4 @@ exports.handler = function(event, context, callback) {
             });
         });
         
-    callback(null,'Successfully executed');
 }
