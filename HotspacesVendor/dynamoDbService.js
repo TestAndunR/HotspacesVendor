@@ -15,7 +15,7 @@ module.exports = {
                 'Description': promoData.description,
                 'UnitPrice': promoData.unitPrice,
                 'Title': promoData.title,
-                'ImgUrls': promoData.imgUrls,
+                'ImgUrls': promoData.imgUrl,
                 'Discount': promoData.discount,
                 'Terms': promoData.terms,
                 'BusinessType': promoData.businessType

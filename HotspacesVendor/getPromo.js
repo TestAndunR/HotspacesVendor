@@ -2,8 +2,11 @@ let AWS = require('aws-sdk');
 let dynamoDBService = require('./dynamoDbService');
 
 exports.handler = function(event, context, callback) {
-    
-    dynamoDBService.getPromo.then(function (data) {
+    // console.log(event);
+    let vendorID = event.queryStringParameters.vendorId;
+    console.log(vendorID);
+    dynamoDBService.getPromo(vendorID).then(function (data) {
+        console.log(data);
             callback(null, {
                 "isBase64Encoded": true,
                 "statusCode": 200,
@@ -24,5 +27,4 @@ exports.handler = function(event, context, callback) {
                 "body": err.message
             });
         });
-    callback(null,'Successfully executed');
 }
