@@ -66,7 +66,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/getPromo.js",
-        "code": "let AWS = require('aws-sdk');\nlet dynamoDBService = require('./dynamoDBService');\n\nexports.handler = function(event, context, callback) {\n    \n    dynamoDBService.getPromo.then(function (data) {\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 200,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": JSON.stringify(data.Items)\n            });\n        }).catch(function (err) {\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 502,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": err.message\n            });\n        });\n    callback(null,'Successfully executed');\n}",
+        "code": "let AWS = require('aws-sdk');\nlet dynamoDBService = require('./dynamoDbService');\n\nexports.handler = function(event, context, callback) {\n    \n    dynamoDBService.getPromo.then(function (data) {\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 200,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": JSON.stringify(data.Items)\n            });\n        }).catch(function (err) {\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 502,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": err.message\n            });\n        });\n    callback(null,'Successfully executed');\n}",
         "triggers": [
           {
             "resourceName": "apigusEast1HSVendorpromoget",
@@ -95,7 +95,7 @@
       "b9b3322c-b75d-4484-93c2-c7083fe20a8d",
       "c1737e82-f2d7-4d78-83b9-5332ec5c6efd"
     ],
-    "currentFileId": "c1737e82-f2d7-4d78-83b9-5332ec5c6efd",
+    "currentFileId": "b9b3322c-b75d-4484-93c2-c7083fe20a8d",
     "resources": {
       "ddbPromotions": {
         "name": "ddbPromotions",
@@ -228,7 +228,7 @@
     "projectVersion": "1.0.0",
     "projectRegion": "us-east-1",
     "platform": "AWS",
-    "lastSave": 1541741389238
+    "lastSave": 1541742207693
   },
   "VCS_STATE": {
     "provider": "GitHub",

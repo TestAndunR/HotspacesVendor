@@ -1,5 +1,5 @@
 let AWS = require('aws-sdk');
-let dynamoDBService = require('./dynamoDBService');
+let dynamoDBService = require('./dynamoDbService');
 
 exports.handler = function(event, context, callback) {
     
