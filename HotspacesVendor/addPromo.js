@@ -5,7 +5,7 @@ let dynamoDBService = require('./dynamoDbService');
 exports.handler = function(event, context, callback) {
     
     let body = JSON.parse(event.body);
-    console.log(body.imgUrls)
+    console.log(body)
     let promoData = {
         promoId : uuidv4(),
         vendorId : body.vendorId,
