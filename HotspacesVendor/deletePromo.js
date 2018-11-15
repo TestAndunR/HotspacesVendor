@@ -1,37 +1,24 @@
 let AWS = require('aws-sdk');
-const uuidv4 = require('uuid/v4');
 let dynamoDBService = require('./dynamoDbService');
 
-exports.handler = function(event, context, callback) {
-    
+exports.handler = function (event, context, callback) {
+    console.log("Event ",event);
     let body = JSON.parse(event.body);
-    console.log(body)
+    console.log(body);
     let promoData = {
-        promoId : uuidv4(),
-        vendorId : body.vendorId,
-        offerType : body.offerType,
-        discount : body.discount,
-        startDate : body.startDate,
-        endDate : body.endDate,
-        selectedDays : body.selectedDays,
-        description : body.description,
-        title : body.title,
-        unitPrice : body.unitPrice,
-        imgUrl : body.imgUrls,
-        terms : body.terms,
-        businessType : body.businessType
+        promoID: body.promoId,
+        vendorID: body.vendorId
     };
-
-    dynamoDBService.addPromo(promoData).then(function (data) {
-        console.log("Success", data);
-            callback(null, {
+    dynamoDBService.deletePromo(promoData).then(function(data){
+        console.log(data);
+        callback(null, {
                 "isBase64Encoded": true,
                 "statusCode": 200,
                 "headers": {
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Methods": "*"
                 },
-                "body": JSON.stringify(promoData.promoId)
+                "body": "Promo Deleted succesfully"
             });
         }).catch(function (err) {
             console.log("Error", err);
@@ -44,6 +31,5 @@ exports.handler = function(event, context, callback) {
                 },
                 "body": err.message
             });
-        });
-        
+    })
 }

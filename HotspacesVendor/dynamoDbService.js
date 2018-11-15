@@ -31,5 +31,12 @@ module.exports = {
             },
             FilterExpression: 'VendorId = :vendor'
         }).promise();
+    },
+
+    deletePromo: function(promoData) {
+        return ddb.delete({
+        TableName: 'Promotions',
+        Key: { 'PromoId': promoID, 'VendorId': vendorID }
+    }).promise()
     }
 }

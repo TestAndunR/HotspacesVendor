@@ -10,7 +10,8 @@
         "children": [
           "48a4b4d6-c751-4efe-afe4-921eb254a535",
           "c1737e82-f2d7-4d78-83b9-5332ec5c6efd",
-          "b9b3322c-b75d-4484-93c2-c7083fe20a8d"
+          "b9b3322c-b75d-4484-93c2-c7083fe20a8d",
+          "702e5427-94d1-46fd-bf9f-6281f218c269"
         ],
         "isRemovable": false,
         "filePath": "HotspacesVendor"
@@ -24,7 +25,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/addPromo.js",
-        "code": "let AWS = require('aws-sdk');\nconst uuidv4 = require('uuid/v4');\nlet dynamoDBService = require('./dynamoDbService');\n\nexports.handler = function(event, context, callback) {\n    \n    let body = JSON.parse(event.body);\n    console.log(body)\n    let promoData = {\n        promoId : uuidv4(),\n        vendorId : body.vendorId,\n        offerType : body.offerType,\n        discount : body.discount,\n        startDate : body.startDate,\n        endDate : body.endDate,\n        selectedDays : body.selectedDays,\n        description : body.description,\n        title : body.title,\n        unitPrice : body.unitPrice,\n        imgUrl : body.imgUrls,\n        terms : body.terms,\n        businessType : body.businessType\n    };\n\n    dynamoDBService.addPromo(promoData).then(function (data) {\n        console.log(\"Success\", data);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 200,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": 'Successfully added vendor with name :'\n            });\n        }).catch(function (err) {\n            console.log(\"Error\", err);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 502,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": err.message\n            });\n        });\n        \n}",
+        "code": "let AWS = require('aws-sdk');\nconst uuidv4 = require('uuid/v4');\nlet dynamoDBService = require('./dynamoDbService');\n\nexports.handler = function(event, context, callback) {\n    \n    let body = JSON.parse(event.body);\n    console.log(body)\n    let promoData = {\n        promoId : uuidv4(),\n        vendorId : body.vendorId,\n        offerType : body.offerType,\n        discount : body.discount,\n        startDate : body.startDate,\n        endDate : body.endDate,\n        selectedDays : body.selectedDays,\n        description : body.description,\n        title : body.title,\n        unitPrice : body.unitPrice,\n        imgUrl : body.imgUrls,\n        terms : body.terms,\n        businessType : body.businessType\n    };\n\n    dynamoDBService.addPromo(promoData).then(function (data) {\n        console.log(\"Success\", data);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 200,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": JSON.stringify(promoData.promoId)\n            });\n        }).catch(function (err) {\n            console.log(\"Error\", err);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 502,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": err.message\n            });\n        });\n        \n}",
         "triggers": [
           {
             "resourceName": "apigusEast1HSVendorpromopost",
@@ -54,7 +55,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/dynamoDbService.js",
-        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        return ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'PromoId': promoData.promoId,\n                'VendorId': promoData.vendorId,\n                'OfferType': promoData.offerType,\n                'StartDate': promoData.startDate,\n                'EndDate': promoData.endDate,\n                'selectedDays': promoData.selectedDays,\n                'Description': promoData.description,\n                'UnitPrice': promoData.unitPrice,\n                'Title': promoData.title,\n                'ImgUrls': promoData.imgUrl,\n                'Discount': promoData.discount,\n                'Terms': promoData.terms,\n                'BusinessType': promoData.businessType\n            }\n        }).promise();\n    },\n\n    getPromo: function (vendor) {\n        return ddb.scan({\n            TableName: 'Promotions',\n            ExpressionAttributeValues: {\n                ':vendor': vendor\n            },\n            FilterExpression: 'VendorId = :vendor'\n        }).promise();\n    }\n}",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        return ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'PromoId': promoData.promoId,\n                'VendorId': promoData.vendorId,\n                'OfferType': promoData.offerType,\n                'StartDate': promoData.startDate,\n                'EndDate': promoData.endDate,\n                'selectedDays': promoData.selectedDays,\n                'Description': promoData.description,\n                'UnitPrice': promoData.unitPrice,\n                'Title': promoData.title,\n                'ImgUrls': promoData.imgUrl,\n                'Discount': promoData.discount,\n                'Terms': promoData.terms,\n                'BusinessType': promoData.businessType\n            }\n        }).promise();\n    },\n\n    getPromo: function (vendor) {\n        return ddb.scan({\n            TableName: 'Promotions',\n            ExpressionAttributeValues: {\n                ':vendor': vendor\n            },\n            FilterExpression: 'VendorId = :vendor'\n        }).promise();\n    },\n\n    deletePromo: function(promoData) {\n        return ddb.delete({\n        TableName: 'Promotions',\n        Key: { 'PromoId': promoID, 'VendorId': vendorID }\n    }).promise()\n    }\n}",
         "triggers": []
       },
       "b9b3322c-b75d-4484-93c2-c7083fe20a8d": {
@@ -86,6 +87,28 @@
             "event": "{\n    \"vendorId\":\"hello\"\n}"
           }
         }
+      },
+      "702e5427-94d1-46fd-bf9f-6281f218c269": {
+        "id": "702e5427-94d1-46fd-bf9f-6281f218c269",
+        "parent": "dad2d1f5-2c20-4e8d-b5af-f23835e6dbb8",
+        "name": "deletePromo.js",
+        "type": "LAMBDA_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "HotspacesVendor/deletePromo.js",
+        "code": "let AWS = require('aws-sdk');\nlet dynamoDBService = require('./dynamoDbService');\n\nexports.handler = function (event, context, callback) {\n    console.log(\"Event \",event);\n    let body = JSON.parse(event.body);\n    console.log(body);\n    let promoData = {\n        promoID: body.promoId,\n        vendorID: body.vendorId\n    };\n    dynamoDBService.deletePromo(promoData).then(function(data){\n        console.log(data);\n        callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 200,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": \"Promo Deleted succesfully\"\n            });\n        }).catch(function (err) {\n            console.log(\"Error\", err);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 502,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": err.message\n            });\n    })\n}",
+        "triggers": [
+          {
+            "resourceName": "apigusEast1HSVendorpromodelete",
+            "config": {}
+          }
+        ],
+        "config": {
+          "runtime": "nodejs8.10",
+          "timeout": 60,
+          "memory": 128
+        }
       }
     },
     "deletedFiles": [],
@@ -93,16 +116,17 @@
     "openFiles": [
       "48a4b4d6-c751-4efe-afe4-921eb254a535",
       "b9b3322c-b75d-4484-93c2-c7083fe20a8d",
-      "c1737e82-f2d7-4d78-83b9-5332ec5c6efd"
+      "c1737e82-f2d7-4d78-83b9-5332ec5c6efd",
+      "702e5427-94d1-46fd-bf9f-6281f218c269"
     ],
-    "currentFileId": "48a4b4d6-c751-4efe-afe4-921eb254a535",
+    "currentFileId": "702e5427-94d1-46fd-bf9f-6281f218c269",
     "resources": {
       "ddbPromotions": {
         "name": "ddbPromotions",
         "type": "DynamoDB",
         "config": {
           "mode": 0,
-          "operation": "put",
+          "operation": "delete",
           "table": {
             "arn": "",
             "name": "Promotions",
@@ -114,22 +138,12 @@
             "mode": 0
           },
           "parameters": {
-            "TableName": "Promotions",
-            "Item": {
-              "PromoId": "@{promoData.promoId}",
-              "VendorId": "@{promoData.vendorId}",
-              "OfferType": "@{promoData.offerType}",
-              "StartDate": "@{promoData.startDate}",
-              "EndDate": "@{promoData.endDate}",
-              "selectedDays": "@{promoData.selectedDays}",
-              "Description": "@{promoData.description}",
-              "UnitPrice": "@{promoData.unitPrice}",
-              "Title": "@{promoData.title}",
-              "ImgUrls": "@{promoData.imgUrls}",
-              "Discount": "@{promoData.discount}",
-              "Terms": "@{promoData.terms}",
-              "BusinessType": "@{promoData.businessType}"
-            }
+            "Key": {
+              "PromoId": "@{promoID}",
+              "VendorId": "@{vendorID}"
+            },
+            "Item": {},
+            "ExpressionAttributeValues": {}
           },
           "validator": {
             "validatableFields": {},
@@ -200,6 +214,39 @@
           "stageDeploymentId": "y7p8k1"
         },
         "globallyEditable": false
+      },
+      "apigusEast1HSVendorpromodelete": {
+        "name": "apigusEast1HSVendorpromodelete",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "us-east-1",
+          "apiMode": 1,
+          "apiName": "HS_Vendor",
+          "apiId": "g32setud9l",
+          "endpointType": "EDGE",
+          "rootResourceId": "evds4lfjyj",
+          "existingResources": {
+            "/vendor/list": "4ge9m1",
+            "/vendor/auth": "66wl16",
+            "/": "evds4lfjyj",
+            "/vendor": "ie9ygw",
+            "/vendor/list/auth": "qqm6po",
+            "/vendor/auth/{vendor_id}": "sfpofz",
+            "/promo": "tu7x2e",
+            "/user": "wrsy7l"
+          },
+          "resourceMode": 0,
+          "resourcePath": "/promo",
+          "resourceName": "promo",
+          "resourceId": "tu7x2e",
+          "restMethod": "DELETE",
+          "proxyIntegration": true,
+          "enableCORS": true,
+          "stageMode": 1,
+          "stageName": "prod",
+          "stageDeploymentId": "rsmyny"
+        },
+        "globallyEditable": false
       }
     },
     "envVariables": [
@@ -228,7 +275,7 @@
     "projectVersion": "1.0.0",
     "projectRegion": "us-east-1",
     "platform": "AWS",
-    "lastSave": 1542006680941
+    "lastSave": 1542274953000
   },
   "VCS_STATE": {
     "provider": "GitHub",
