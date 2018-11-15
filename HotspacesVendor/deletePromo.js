@@ -2,12 +2,13 @@ let AWS = require('aws-sdk');
 let dynamoDBService = require('./dynamoDbService');
 
 exports.handler = function (event, context, callback) {
-    console.log("Event ",event);
+    console.log("PromoID ",event.queryStringParameters.promoId);
+    console.log("VendorID ",event.queryStringParameters.vendorId);
     // let body = JSON.parse(event.body);
     // console.log(body);
     let promoData = {
-        promoID: queryStringParameters.promoId,
-        vendorID: queryStringParameters.vendorId
+        promoID: event.queryStringParameters.promoId,
+        vendorID: event.queryStringParameters.vendorId
     };
     dynamoDBService.deletePromo(promoData).then(function(data){
         console.log(data);

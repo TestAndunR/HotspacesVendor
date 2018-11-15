@@ -31,7 +31,7 @@ exports.handler = function(event, context, callback) {
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Methods": "*"
                 },
-                "body": JSON.stringify(promoData.promoId)
+                "body": JSON.stringify(promoData)
             });
         }).catch(function (err) {
             console.log("Error", err);
