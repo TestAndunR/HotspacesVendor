@@ -33,10 +33,13 @@ module.exports = {
         }).promise();
     },
 
-    deletePromo: function(promoData) {
+    deletePromo: function (promoData) {
         return ddb.delete({
-        TableName: 'Promotions',
-        Key: { 'PromoId': promoID, 'VendorId': vendorID }
-    }).promise()
+            TableName: 'Promotions',
+            Key: {
+                'PromoId': promoData.promoID,
+                'VendorId': promoData.vendorID
+            }
+        }).promise()
     }
 }

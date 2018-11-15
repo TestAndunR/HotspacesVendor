@@ -55,7 +55,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/dynamoDbService.js",
-        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        return ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'PromoId': promoData.promoId,\n                'VendorId': promoData.vendorId,\n                'OfferType': promoData.offerType,\n                'StartDate': promoData.startDate,\n                'EndDate': promoData.endDate,\n                'selectedDays': promoData.selectedDays,\n                'Description': promoData.description,\n                'UnitPrice': promoData.unitPrice,\n                'Title': promoData.title,\n                'ImgUrls': promoData.imgUrl,\n                'Discount': promoData.discount,\n                'Terms': promoData.terms,\n                'BusinessType': promoData.businessType\n            }\n        }).promise();\n    },\n\n    getPromo: function (vendor) {\n        return ddb.scan({\n            TableName: 'Promotions',\n            ExpressionAttributeValues: {\n                ':vendor': vendor\n            },\n            FilterExpression: 'VendorId = :vendor'\n        }).promise();\n    },\n\n    deletePromo: function(promoData) {\n        return ddb.delete({\n        TableName: 'Promotions',\n        Key: { 'PromoId': promoID, 'VendorId': vendorID }\n    }).promise()\n    }\n}",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        return ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'PromoId': promoData.promoId,\n                'VendorId': promoData.vendorId,\n                'OfferType': promoData.offerType,\n                'StartDate': promoData.startDate,\n                'EndDate': promoData.endDate,\n                'selectedDays': promoData.selectedDays,\n                'Description': promoData.description,\n                'UnitPrice': promoData.unitPrice,\n                'Title': promoData.title,\n                'ImgUrls': promoData.imgUrl,\n                'Discount': promoData.discount,\n                'Terms': promoData.terms,\n                'BusinessType': promoData.businessType\n            }\n        }).promise();\n    },\n\n    getPromo: function (vendor) {\n        return ddb.scan({\n            TableName: 'Promotions',\n            ExpressionAttributeValues: {\n                ':vendor': vendor\n            },\n            FilterExpression: 'VendorId = :vendor'\n        }).promise();\n    },\n\n    deletePromo: function (promoData) {\n        return ddb.delete({\n            TableName: 'Promotions',\n            Key: {\n                'PromoId': promoData.promoID,\n                'VendorId': promoData.vendorID\n            }\n        }).promise()\n    }\n}",
         "triggers": []
       },
       "b9b3322c-b75d-4484-93c2-c7083fe20a8d": {
@@ -119,7 +119,7 @@
       "c1737e82-f2d7-4d78-83b9-5332ec5c6efd",
       "702e5427-94d1-46fd-bf9f-6281f218c269"
     ],
-    "currentFileId": "702e5427-94d1-46fd-bf9f-6281f218c269",
+    "currentFileId": "c1737e82-f2d7-4d78-83b9-5332ec5c6efd",
     "resources": {
       "ddbPromotions": {
         "name": "ddbPromotions",
@@ -138,12 +138,11 @@
             "mode": 0
           },
           "parameters": {
+            "TableName": "Promotions",
             "Key": {
-              "PromoId": "@{promoID}",
-              "VendorId": "@{vendorID}"
-            },
-            "Item": {},
-            "ExpressionAttributeValues": {}
+              "PromoId": "@{promoData.promoID}",
+              "VendorId": "@{promoData.vendorID}"
+            }
           },
           "validator": {
             "validatableFields": {},
@@ -275,7 +274,7 @@
     "projectVersion": "1.0.0",
     "projectRegion": "us-east-1",
     "platform": "AWS",
-    "lastSave": 1542274953000
+    "lastSave": 1542275269667
   },
   "VCS_STATE": {
     "provider": "GitHub",
