@@ -44,5 +44,15 @@ module.exports = {
                 'VendorId': promoData.vendorID
             }
         }).promise()
+    },
+
+    retrievePromos: function (date) {
+        return ddb.scan({
+            TableName: 'Promotions',
+            ExpressionAttributeValues: {
+                ':date': date
+            },
+            FilterExpression: 'StartDate <= :date and EndDate >= :date'
+        }).promise()
     }
 }
