@@ -14,6 +14,8 @@ exports.handler = function(event, context, callback) {
         discount : body.discount,
         startDate : body.startDate,
         endDate : body.endDate,
+        startTime: body.startTime,
+        endTime: body.endTime,
         selectedDays : body.selectedDays,
         description : body.description,
         title : body.title,

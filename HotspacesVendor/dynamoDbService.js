@@ -11,6 +11,8 @@ module.exports = {
                 'OfferType': promoData.offerType,
                 'StartDate': promoData.startDate,
                 'EndDate': promoData.endDate,
+                'StartTime': promoData.startTime,
+                'EndTime': promoData.endTime,
                 'selectedDays': promoData.selectedDays,
                 'Description': promoData.description,
                 'UnitPrice': promoData.unitPrice,

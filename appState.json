@@ -26,7 +26,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/addPromo.js",
-        "code": "let AWS = require('aws-sdk');\nconst uuidv4 = require('uuid/v4');\nlet dynamoDBService = require('./dynamoDbService');\n\nexports.handler = function(event, context, callback) {\n    let timestamp = Math.round((new Date()).getTime() / 1000);;\n    // console.log(timestamp);\n    let body = JSON.parse(event.body);\n    console.log(body)\n    let promoData = {\n        promoId : uuidv4(),\n        vendorId : body.vendorId,\n        offerType : body.offerType,\n        discount : body.discount,\n        startDate : body.startDate,\n        endDate : body.endDate,\n        selectedDays : body.selectedDays,\n        description : body.description,\n        title : body.title,\n        unitPrice : body.unitPrice,\n        imgUrl : body.imgUrls,\n        terms : body.terms,\n        businessType : body.businessType,\n        timestamp: timestamp\n    };\n\n    dynamoDBService.addPromo(promoData).then(function (data) {\n        console.log(\"Success\", data);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 200,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": JSON.stringify(promoData)\n            });\n        }).catch(function (err) {\n            console.log(\"Error\", err);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 502,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": err.message\n            });\n        });\n        \n}",
+        "code": "let AWS = require('aws-sdk');\nconst uuidv4 = require('uuid/v4');\nlet dynamoDBService = require('./dynamoDbService');\n\nexports.handler = function(event, context, callback) {\n    let timestamp = Math.round((new Date()).getTime() / 1000);;\n    // console.log(timestamp);\n    let body = JSON.parse(event.body);\n    console.log(body)\n    let promoData = {\n        promoId : uuidv4(),\n        vendorId : body.vendorId,\n        offerType : body.offerType,\n        discount : body.discount,\n        startDate : body.startDate,\n        endDate : body.endDate,\n        startTime: body.startTime,\n        endTime: body.endTime,\n        selectedDays : body.selectedDays,\n        description : body.description,\n        title : body.title,\n        unitPrice : body.unitPrice,\n        imgUrl : body.imgUrls,\n        terms : body.terms,\n        businessType : body.businessType,\n        timestamp: timestamp\n    };\n\n    dynamoDBService.addPromo(promoData).then(function (data) {\n        console.log(\"Success\", data);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 200,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": JSON.stringify(promoData)\n            });\n        }).catch(function (err) {\n            console.log(\"Error\", err);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 502,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": err.message\n            });\n        });\n        \n}",
         "triggers": [
           {
             "resourceName": "apigusEast1HSVendorpromopost",
@@ -56,7 +56,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/dynamoDbService.js",
-        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        return ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'PromoId': promoData.promoId,\n                'VendorId': promoData.vendorId,\n                'OfferType': promoData.offerType,\n                'StartDate': promoData.startDate,\n                'EndDate': promoData.endDate,\n                'selectedDays': promoData.selectedDays,\n                'Description': promoData.description,\n                'UnitPrice': promoData.unitPrice,\n                'Title': promoData.title,\n                'ImgUrls': promoData.imgUrl,\n                'Discount': promoData.discount,\n                'Terms': promoData.terms,\n                'BusinessType': promoData.businessType,\n                'Timestamp': promoData.timestamp\n            }\n        }).promise();\n    },\n\n    getPromo: function (vendor) {\n        return ddb.scan({\n            TableName: 'Promotions',\n            ExpressionAttributeValues: {\n                ':vendor': vendor\n            },\n            FilterExpression: 'VendorId = :vendor'\n        }).promise();\n    },\n\n    deletePromo: function (promoData) {\n        return ddb.delete({\n            TableName: 'Promotions',\n            Key: {\n                'PromoId': promoData.promoID,\n                'VendorId': promoData.vendorID\n            }\n        }).promise()\n    }\n}",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        return ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'PromoId': promoData.promoId,\n                'VendorId': promoData.vendorId,\n                'OfferType': promoData.offerType,\n                'StartDate': promoData.startDate,\n                'EndDate': promoData.endDate,\n                'StartTime': promoData.startTime,\n                'EndTime': promoData.endTime,\n                'selectedDays': promoData.selectedDays,\n                'Description': promoData.description,\n                'UnitPrice': promoData.unitPrice,\n                'Title': promoData.title,\n                'ImgUrls': promoData.imgUrl,\n                'Discount': promoData.discount,\n                'Terms': promoData.terms,\n                'BusinessType': promoData.businessType,\n                'Timestamp': promoData.timestamp\n            }\n        }).promise();\n    },\n\n    getPromo: function (vendor) {\n        return ddb.scan({\n            TableName: 'Promotions',\n            ExpressionAttributeValues: {\n                ':vendor': vendor\n            },\n            FilterExpression: 'VendorId = :vendor'\n        }).promise();\n    },\n\n    deletePromo: function (promoData) {\n        return ddb.delete({\n            TableName: 'Promotions',\n            Key: {\n                'PromoId': promoData.promoID,\n                'VendorId': promoData.vendorID\n            }\n        }).promise()\n    }\n}",
         "triggers": []
       },
       "b9b3322c-b75d-4484-93c2-c7083fe20a8d": {
@@ -120,7 +120,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/retrievePromos.js",
-        "code": "exports.handler = function(event, context, callback) {\n    \n    let timestamp = Math.round((new Date()).getTime() / 1000);;\n    console.log(timestamp);\n\n    callback(null, {\"message\": \"Successfully executed\"});\n}",
+        "code": "exports.handler = function(event, context, callback) {\n    \n    let date = event.date;\n    \n    console.log(date);\n\n    callback(null, {\"message\": \"Successfully executed\"});\n}",
         "triggers": [],
         "config": {
           "runtime": "nodejs8.10",
@@ -132,7 +132,7 @@
             "id": "2f0b305c-f4a8-41ee-9e83-d552b8f268e7",
             "name": "Unnamed event",
             "functionId": "4cdece0f-0541-4ae3-b9a7-408f9edd450c",
-            "event": "{\n    \"key1\": \"value1\",\n    \"key2\": \"value2\",\n    \"key3\": \"value3\"\n}"
+            "event": "{\n    \"date\": 1212121212\n}"
           }
         }
       }
@@ -146,7 +146,7 @@
       "702e5427-94d1-46fd-bf9f-6281f218c269",
       "4cdece0f-0541-4ae3-b9a7-408f9edd450c"
     ],
-    "currentFileId": "c1737e82-f2d7-4d78-83b9-5332ec5c6efd",
+    "currentFileId": "48a4b4d6-c751-4efe-afe4-921eb254a535",
     "resources": {
       "ddbPromotions": {
         "name": "ddbPromotions",
@@ -172,6 +172,8 @@
               "OfferType": "@{promoData.offerType}",
               "StartDate": "@{promoData.startDate}",
               "EndDate": "@{promoData.endDate}",
+              "StartTime": "@{promoData.startTime}",
+              "EndTime": "@{promoData.endTime}",
               "selectedDays": "@{promoData.selectedDays}",
               "Description": "@{promoData.description}",
               "UnitPrice": "@{promoData.unitPrice}",
@@ -313,7 +315,7 @@
     "projectVersion": "1.0.0",
     "projectRegion": "us-east-1",
     "platform": "AWS",
-    "lastSave": 1542793818623
+    "lastSave": 1542797173900
   },
   "VCS_STATE": {
     "provider": "GitHub",
