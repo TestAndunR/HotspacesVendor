@@ -18,7 +18,8 @@ module.exports = {
                 'ImgUrls': promoData.imgUrl,
                 'Discount': promoData.discount,
                 'Terms': promoData.terms,
-                'BusinessType': promoData.businessType
+                'BusinessType': promoData.businessType,
+                'Timestamp': promoData.timestamp
             }
         }).promise();
     },

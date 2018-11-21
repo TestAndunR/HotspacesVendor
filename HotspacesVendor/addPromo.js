@@ -3,7 +3,8 @@ const uuidv4 = require('uuid/v4');
 let dynamoDBService = require('./dynamoDbService');
 
 exports.handler = function(event, context, callback) {
-    
+    let timestamp = Math.round((new Date()).getTime() / 1000);;
+    // console.log(timestamp);
     let body = JSON.parse(event.body);
     console.log(body)
     let promoData = {
@@ -19,7 +20,8 @@ exports.handler = function(event, context, callback) {
         unitPrice : body.unitPrice,
         imgUrl : body.imgUrls,
         terms : body.terms,
-        businessType : body.businessType
+        businessType : body.businessType,
+        timestamp: timestamp
     };
 
     dynamoDBService.addPromo(promoData).then(function (data) {
