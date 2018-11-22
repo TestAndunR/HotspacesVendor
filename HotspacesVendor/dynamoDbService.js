@@ -54,5 +54,14 @@ module.exports = {
             },
             FilterExpression: 'StartDate <= :date and EndDate >= :date'
         }).promise()
+    },
+
+    getVendor: function (vendorId) {
+        return ddb.get({
+            TableName: 'HS_vendor',
+            Key: {
+                'vendor_id': vendorId
+            }
+        }).promise()
     }
 }
