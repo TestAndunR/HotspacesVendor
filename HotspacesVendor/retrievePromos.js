@@ -30,13 +30,13 @@ exports.handler = function (event, context, callback) {
                     selectedDays: data.Items[i].selectedDays,
                     unitPrice: data.Items[i].UnitPrice 
             }
-            
+            console.log("Third", promos.promoId);
             let vendorId = data.Items[i].VendorId;
             dynamoDBService.getVendor("432aebe0-dba8-4aba-8881-30d54e70b84d").then(function (vendorData) {
                 //your logic goes here
                 console.log("First", vendorData.Item.name);
-                console.log("Second", promos);
-                console.log("Third", promos.data.Items[i].PromoId);
+                console.log("Second", promoId);
+                // console.log("Third", promos.promoId);
                 // promos.data.Items[i].PromoId["vendorName"] = vendorData.Item.name;
             }).catch(function (err) {
                 //handle error
