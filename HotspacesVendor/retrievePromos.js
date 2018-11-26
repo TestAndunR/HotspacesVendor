@@ -5,8 +5,8 @@ let axios = require('axios');
 let dynamoDBService = require('./dynamoDbService');
 
 exports.handler = function (event, context, callback) {
-
-    let date = moment(new Date(event.date)).format('YYYY-MM-DD');
+    console.log(event);
+    let date = moment(new Date(event.queryStringParameters.date)).format('YYYY-MM-DD');
     let promos = {};
     dynamoDBService.retrievePromos(date).then(function (data) {
         // axios.get()
