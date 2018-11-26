@@ -56,12 +56,12 @@ module.exports = {
         }).promise()
     },
 
-    getVendor: function (vendorId) {
-        return ddb.get({
-            TableName: 'HS_vendor',
-            Key: {
-                'vendor_id': vendorId
-            }
-        }).promise()
-    }
+    // getVendor: function (vendorId) {
+    //     return ddb.get({
+    //         TableName: 'HS_vendor',
+    //         Key: {
+    //             'vendor_id': vendorId
+    //         }
+    //     }).promise()
+    // }
 }
