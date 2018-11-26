@@ -6,7 +6,8 @@ let dynamoDBService = require('./dynamoDbService');
 
 exports.handler = function (event, context, callback) {
     console.log(event);
-    let date = moment(new Date(event.queryStringParameters.date)).format('YYYY-MM-DD');
+    let date = moment(new Date(Number(event.queryStringParameters.date))).format('YYYY-MM-DD');
+    console.log(date);
     let promos = {};
     dynamoDBService.retrievePromos(date).then(function (data) {
         // axios.get()
@@ -32,16 +33,16 @@ exports.handler = function (event, context, callback) {
             }
             console.log("Third", promos.promoId);
             let vendorId = data.Items[i].VendorId;
-            dynamoDBService.getVendor("432aebe0-dba8-4aba-8881-30d54e70b84d").then(function (vendorData) {
-                //your logic goes here
-                console.log("First", vendorData.Item.name);
-                console.log("Second", promoId);
-                // console.log("Third", promos.promoId);
-                // promos.data.Items[i].PromoId["vendorName"] = vendorData.Item.name;
-            }).catch(function (err) {
-                //handle error
-                console.log(err);
-            });
+            // dynamoDBService.getVendor("432aebe0-dba8-4aba-8881-30d54e70b84d").then(function (vendorData) {
+            //     //your logic goes here
+            //     console.log("First", vendorData.Item.name);
+            //     console.log("Second", promoId);
+            //     // console.log("Third", promos.promoId);
+            //     // promos.data.Items[i].PromoId["vendorName"] = vendorData.Item.name;
+            // }).catch(function (err) {
+            //     //handle error
+            //     console.log(err);
+            // });
             
         }
         // console.log(promos);

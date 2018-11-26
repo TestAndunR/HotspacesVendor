@@ -23,7 +23,8 @@ exports.handler = function(event, context, callback) {
         imgUrl : body.imgUrls,
         terms : body.terms,
         businessType : body.businessType,
-        timestamp: timestamp
+        timestamp: timestamp,
+        locationBox: body.locationBox
     };
 
     dynamoDBService.addPromo(promoData).then(function (data) {

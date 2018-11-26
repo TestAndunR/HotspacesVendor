@@ -21,7 +21,8 @@ module.exports = {
                 'Discount': promoData.discount,
                 'Terms': promoData.terms,
                 'BusinessType': promoData.businessType,
-                'Timestamp': promoData.timestamp
+                'Timestamp': promoData.timestamp,
+                'LocationBox': promoData.locationBox
             }
         }).promise();
     },
