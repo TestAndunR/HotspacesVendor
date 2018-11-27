@@ -34,7 +34,7 @@ module.exports = {
             ExpressionAttributeValues: {
                 ':vendor': vendor
             },
-            FilterExpression: 'VendorId = :vendor'
+            FilterExpression: 'vendorId = :vendor'
         }).promise();
     },
 
@@ -42,8 +42,8 @@ module.exports = {
         return ddb.delete({
             TableName: 'Promotions',
             Key: {
-                'PromoId': promoData.promoID,
-                'VendorId': promoData.vendorID
+                'promoId': promoData.promoID,
+                'vendorId': promoData.vendorID
             }
         }).promise()
     },
@@ -54,7 +54,7 @@ module.exports = {
             ExpressionAttributeValues: {
                 ':date': date
             },
-            FilterExpression: 'StartDate <= :date and EndDate >= :date'
+            FilterExpression: 'startDate <= :date and endDate >= :date'
         }).promise()
     },
 
