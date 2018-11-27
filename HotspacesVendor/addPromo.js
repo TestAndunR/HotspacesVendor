@@ -25,7 +25,7 @@ exports.handler = function(event, context, callback) {
         businessType : body.businessType,
         timestamp: timestamp,
         locationBox: body.locationBox,
-        latnLong: body.lat&Long
+        latnLong: body.latnLong
     };
 
     dynamoDBService.addPromo(promoData).then(function (data) {
