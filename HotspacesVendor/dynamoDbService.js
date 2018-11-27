@@ -23,7 +23,7 @@ module.exports = {
                 'category': promoData.businessType,
                 'timestamp': promoData.timestamp,
                 'locationBox': promoData.locationBox,
-                'latLong': promoData.lat&Long
+                'latNLong': promoData.latNLong
             }
         }).promise();
     },
