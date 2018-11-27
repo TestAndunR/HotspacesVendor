@@ -22,7 +22,8 @@ module.exports = {
                 'Terms': promoData.terms,
                 'BusinessType': promoData.businessType,
                 'Timestamp': promoData.timestamp,
-                'LocationBox': promoData.locationBox
+                'LocationBox': promoData.locationBox,
+                'LatnLong': promoData.latnLong
             }
         }).promise();
     },
