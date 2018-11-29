@@ -57,5 +57,94 @@ module.exports = {
                 'vendor_id': vendorId
             }
         }).promise()
+    },
+
+    updatePromo: function (updatedData) {
+        return ddb.update({
+            TableName: 'Promotions',
+            Key: {
+                'promoId': updatedData.promoId,
+                'timestamp': updatedData.timestamp
+            },
+            ExpressionAttributeNames: {
+                '#promoId': 'promoId',
+                '#category': 'category',
+                '#description': 'description',
+                '#discount': 'discount',
+                '#endDate': 'endDate',
+                '#endTime': 'endTime',
+                '#imgUrls': 'imgUrls',
+                '#latNLong': 'latNLong',
+                '#locationBox': 'locationBox',
+                '#offerType': 'offerType',
+                '#selectedDays': 'selectedDays',
+                '#startDate': 'startDate',
+                '#startTime': 'startTime'
+            },
+            ExpressionAttributeValues: {
+                ':promoId': updatedData.promoId,
+                ':category': updatedData.businessType,
+                ':description': updatedData.description,
+                ':discount': updatedData.discount,
+                ':endDate': updatedData.endDate,
+                ':endTime': updatedData.endTime,
+                ':imgUrls': updatedData.imgUrl,
+                ':latNLong': updatedData.latNLong,
+                ':locationBox': updatedData.locationBox,
+                ':offerType': updatedData.offerType,
+                ':selectedDays': updatedData.selectedDays,
+                ':startDate': updatedData.startDate,
+                ':startTime': updatedData.startTime
+            },
+            UpdateExpression: 'set #category = :category , #description = :category , #discount = :discount , #endDate = :endDate , #endTime = :promoId , #imgUrls = :imgUrls , #latNLong = :latNLong , #locationBox = :locationBox , #offerType = :offerType , #selectedDays = :selectedDays , #startDate = :startDate , #startTime = :startTime',
+            ConditionExpression: '#promoId = :promoId'
+        }).promise()
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

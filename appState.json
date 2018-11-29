@@ -12,7 +12,8 @@
           "c1737e82-f2d7-4d78-83b9-5332ec5c6efd",
           "b9b3322c-b75d-4484-93c2-c7083fe20a8d",
           "702e5427-94d1-46fd-bf9f-6281f218c269",
-          "4cdece0f-0541-4ae3-b9a7-408f9edd450c"
+          "4cdece0f-0541-4ae3-b9a7-408f9edd450c",
+          "8493c931-3cb2-42eb-a008-ccb4c1d3afac"
         ],
         "isRemovable": false,
         "filePath": "HotspacesVendor"
@@ -56,7 +57,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/dynamoDbService.js",
-        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        return ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'promoId': promoData.promoId,\n                'vendorId': promoData.vendorId,\n                'termsNConditions': promoData.terms,\n                'offerType': promoData.offerType,\n                'startDate': promoData.startDate,\n                'endDate': promoData.endDate,\n                'startTime': promoData.startTime,\n                'endTime': promoData.endTime,\n                'selectedDays': promoData.selectedDays,\n                'description': promoData.description,\n                'unitPrice': promoData.unitPrice,\n                'title': promoData.title,\n                'imgUrls': promoData.imgUrl,\n                'discount': promoData.discount,\n                'category': promoData.businessType,\n                'timestamp': promoData.timestamp,\n                'locationBox': promoData.locationBox,\n                'latNLong': promoData.latNLong\n            }\n        }).promise()\n\n    },\n\n\n    deletePromo: function (promoData) {\n        return ddb.delete({\n            TableName: 'Promotions',\n            Key: {\n                'promoId': promoData.promoID,\n                'timestamp': timestamp\n            }\n        }).promise()\n    },\n\n    retrievePromos: function (date) {\n        return ddb.scan({\n            TableName: 'Promotions',\n            ExpressionAttributeValues: {\n                ':date': date\n            },\n            FilterExpression: 'startDate <= :date and endDate >= :date'\n        }).promise()\n    },\n\n    getVendor: function (vendorId) {\n        return ddb.get({\n            TableName: 'HS_vendor',\n            Key: {\n                'vendor_id': vendorId\n            }\n        }).promise()\n    }\n}",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        return ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'promoId': promoData.promoId,\n                'vendorId': promoData.vendorId,\n                'termsNConditions': promoData.terms,\n                'offerType': promoData.offerType,\n                'startDate': promoData.startDate,\n                'endDate': promoData.endDate,\n                'startTime': promoData.startTime,\n                'endTime': promoData.endTime,\n                'selectedDays': promoData.selectedDays,\n                'description': promoData.description,\n                'unitPrice': promoData.unitPrice,\n                'title': promoData.title,\n                'imgUrls': promoData.imgUrl,\n                'discount': promoData.discount,\n                'category': promoData.businessType,\n                'timestamp': promoData.timestamp,\n                'locationBox': promoData.locationBox,\n                'latNLong': promoData.latNLong\n            }\n        }).promise()\n\n    },\n\n\n    deletePromo: function (promoData) {\n        return ddb.delete({\n            TableName: 'Promotions',\n            Key: {\n                'promoId': promoData.promoID,\n                'timestamp': timestamp\n            }\n        }).promise()\n    },\n\n    retrievePromos: function (date) {\n        return ddb.scan({\n            TableName: 'Promotions',\n            ExpressionAttributeValues: {\n                ':date': date\n            },\n            FilterExpression: 'startDate <= :date and endDate >= :date'\n        }).promise()\n    },\n\n    getVendor: function (vendorId) {\n        return ddb.get({\n            TableName: 'HS_vendor',\n            Key: {\n                'vendor_id': vendorId\n            }\n        }).promise()\n    },\n\n    updatePromo: function (updatedData) {\n        return ddb.update({\n            TableName: 'Promotions',\n            Key: {\n                'promoId': updatedData.promoId,\n                'timestamp': updatedData.timestamp\n            },\n            ExpressionAttributeNames: {\n                '#promoId': 'promoId',\n                '#category': 'category',\n                '#description': 'description',\n                '#discount': 'discount',\n                '#endDate': 'endDate',\n                '#endTime': 'endTime',\n                '#imgUrls': 'imgUrls',\n                '#latNLong': 'latNLong',\n                '#locationBox': 'locationBox',\n                '#offerType': 'offerType',\n                '#selectedDays': 'selectedDays',\n                '#startDate': 'startDate',\n                '#startTime': 'startTime'\n            },\n            ExpressionAttributeValues: {\n                ':promoId': updatedData.promoId,\n                ':category': updatedData.businessType,\n                ':description': updatedData.description,\n                ':discount': updatedData.discount,\n                ':endDate': updatedData.endDate,\n                ':endTime': updatedData.endTime,\n                ':imgUrls': updatedData.imgUrl,\n                ':latNLong': updatedData.latNLong,\n                ':locationBox': updatedData.locationBox,\n                ':offerType': updatedData.offerType,\n                ':selectedDays': updatedData.selectedDays,\n                ':startDate': updatedData.startDate,\n                ':startTime': updatedData.startTime\n            },\n            UpdateExpression: 'set #category = :category , #description = :category , #discount = :discount , #endDate = :endDate , #endTime = :promoId , #imgUrls = :imgUrls , #latNLong = :latNLong , #locationBox = :locationBox , #offerType = :offerType , #selectedDays = :selectedDays , #startDate = :startDate , #startTime = :startTime',\n            ConditionExpression: '#promoId = :promoId'\n        }).promise()\n    }\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
         "triggers": []
       },
       "b9b3322c-b75d-4484-93c2-c7083fe20a8d": {
@@ -140,14 +141,38 @@
             "event": "{\n    \"date\": 1542797915000\n}"
           }
         }
+      },
+      "8493c931-3cb2-42eb-a008-ccb4c1d3afac": {
+        "id": "8493c931-3cb2-42eb-a008-ccb4c1d3afac",
+        "parent": "dad2d1f5-2c20-4e8d-b5af-f23835e6dbb8",
+        "name": "updatePromo.js",
+        "type": "LAMBDA_FILE",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "HotspacesVendor/updatePromo.js",
+        "code": "let AWS = require('aws-sdk');\nlet dynamoDBService = require('./dynamoDbService');\n\nexports.handler = function (event, context, callback) {\n    let updatedData = {\n        promoId: body.promoId,\n        vendorId: body.vendorId,\n        offerType: body.offerType,\n        discount: body.discount,\n        startDate: body.startDate,\n        endDate: body.endDate,\n        startTime: body.startTime,\n        endTime: body.endTime,\n        selectedDays: body.selectedDays,\n        description: body.description,\n        title: body.title,\n        unitPrice: body.unitPrice,\n        imgUrl: body.imgUrls,\n        terms: body.terms,\n        businessType: body.businessType,\n        timestamp: timestamp,\n        locationBox: body.locationBox,\n        latNLong: body.latNLong\n    }\n    \n    dynamoDBService.updatePromo(promoData)\n        .then(function (data) {\n        console.log(\"Success\", data);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 200,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": JSON.stringify(updatedData)\n            });\n        }).catch(function (err) {\n            console.log(\"Error\", err);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 502,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": err.message\n            });\n        });\n\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "triggers": [
+          {
+            "resourceName": "apigusEast1HSVendorpromoput",
+            "config": {}
+          }
+        ],
+        "config": {
+          "runtime": "nodejs8.10",
+          "timeout": 60,
+          "memory": 128
+        }
       }
     },
     "deletedFiles": [],
     "rootNode": "dad2d1f5-2c20-4e8d-b5af-f23835e6dbb8",
     "openFiles": [
+      "8493c931-3cb2-42eb-a008-ccb4c1d3afac",
+      "48a4b4d6-c751-4efe-afe4-921eb254a535",
       "c1737e82-f2d7-4d78-83b9-5332ec5c6efd"
     ],
-    "currentFileId": "c1737e82-f2d7-4d78-83b9-5332ec5c6efd",
+    "currentFileId": "8493c931-3cb2-42eb-a008-ccb4c1d3afac",
     "resources": {
       "apigusEast1HSVendorpromoget": {
         "name": "apigusEast1HSVendorpromoget",
@@ -277,24 +302,56 @@
         "name": "ddbPromotions",
         "type": "DynamoDB",
         "config": {
-          "mode": 0,
-          "operation": "scan",
+          "mode": 1,
+          "operation": "update",
           "table": {
-            "arn": "",
+            "arn": "arn:aws:dynamodb:us-east-1:318300609668:table/Promotions",
             "name": "Promotions",
             "partitionKey": "promoId",
             "partitionKeyType": "S",
             "hasSortKey": true,
             "sortKey": "timestamp",
             "sortKeyType": "N",
-            "mode": 0
+            "mode": 1
           },
           "parameters": {
             "TableName": "Promotions",
-            "ExpressionAttributeValues": {
-              ":date": "@{date}"
+            "Key": {
+              "promoId": "@{updatedData.promoId}",
+              "timestamp": "@{updatedData.timestamp}"
             },
-            "FilterExpression": "startDate <= :date and endDate >= :date"
+            "ExpressionAttributeNames": {
+              "#promoId": "promoId",
+              "#category": "category",
+              "#description": "description",
+              "#discount": "discount",
+              "#endDate": "endDate",
+              "#endTime": "endTime",
+              "#imgUrls": "imgUrls",
+              "#latNLong": "latNLong",
+              "#locationBox": "locationBox",
+              "#offerType": "offerType",
+              "#selectedDays": "selectedDays",
+              "#startDate": "startDate",
+              "#startTime": "startTime"
+            },
+            "ExpressionAttributeValues": {
+              ":promoId": "@{updatedData.promoId}",
+              ":category": "@{updatedData.businessType}",
+              ":description": "@{updatedData.description}",
+              ":discount": "@{updatedData.discount}",
+              ":endDate": "@{updatedData.endDate}",
+              ":endTime": "@{updatedData.endTime}",
+              ":imgUrls": "@{updatedData.imgUrl}",
+              ":latNLong": "@{updatedData.latNLong}",
+              ":locationBox": "@{updatedData.locationBox}",
+              ":offerType": "@{updatedData.offerType}",
+              ":selectedDays": "@{updatedData.selectedDays}",
+              ":startDate": "@{updatedData.startDate}",
+              ":startTime": "@{updatedData.startTime}"
+            },
+            "UpdateExpression": "set #category = :category , #description = :category , #discount = :discount , #endDate = :endDate , #endTime = :promoId , #imgUrls = :imgUrls , #latNLong = :latNLong , #locationBox = :locationBox , #offerType = :offerType , #selectedDays = :selectedDays , #startDate = :startDate , #startTime = :startTime",
+            "ConditionExpression": "#promoId = :promoId"
           },
           "validator": {
             "validatableFields": {},
@@ -318,7 +375,7 @@
             "hasSortKey": false,
             "sortKey": "",
             "sortKeyType": "S",
-            "mode": 1
+            "mode": 0
           },
           "parameters": {
             "TableName": "HS_vendor",
@@ -331,6 +388,42 @@
             "validity": true
           },
           "valid": true
+        },
+        "globallyEditable": false
+      },
+      "apigusEast1HSVendorpromoput": {
+        "name": "apigusEast1HSVendorpromoput",
+        "type": "API_GATEWAY",
+        "config": {
+          "selectedRegion": "us-east-1",
+          "apiMode": 1,
+          "apiName": "HS_Vendor",
+          "apiId": "g32setud9l",
+          "endpointType": "EDGE",
+          "rootResourceId": "evds4lfjyj",
+          "existingResources": {
+            "/vendor/list": "4ge9m1",
+            "/promo": "4n0wmj",
+            "/vendor/auth": "66wl16",
+            "/": "evds4lfjyj",
+            "/vendor": "ie9ygw",
+            "/redeem": "iw59xw",
+            "/qrCode": "l4f0yp",
+            "/vendor/list/auth": "qqm6po",
+            "/vendor/auth/{vendor_id}": "sfpofz",
+            "/promo/list": "tv4pub",
+            "/user": "wrsy7l"
+          },
+          "resourceMode": 0,
+          "resourcePath": "/promo",
+          "resourceName": "promo",
+          "resourceId": "4n0wmj",
+          "restMethod": "PUT",
+          "proxyIntegration": true,
+          "enableCORS": true,
+          "stageMode": 1,
+          "stageName": "prod",
+          "stageDeploymentId": "z8quig"
         },
         "globallyEditable": false
       }
@@ -369,7 +462,7 @@
     "projectVersion": "1.0.0",
     "projectRegion": "us-east-1",
     "platform": "AWS",
-    "lastSave": 1543483405328,
+    "lastSave": 1543485863031,
     "platformRegions": {}
   },
   "VCS_STATE": {
