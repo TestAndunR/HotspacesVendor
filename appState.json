@@ -26,7 +26,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/addPromo.js",
-        "code": "let AWS = require('aws-sdk');\nconst uuidv4 = require('uuid/v4');\nlet dynamoDBService = require('./dynamoDbService');\n\nexports.handler = function(event, context, callback) {\n    let timestamp = Math.round((new Date()).getTime() / 1000);;\n    // console.log(timestamp);\n    let body = JSON.parse(event.body);\n    console.log(body)\n    let promoData = {\n        promoId : uuidv4(),\n        vendorId : body.vendorId,\n        offerType : body.offerType,\n        discount : body.discount,\n        startDate : body.startDate,\n        endDate : body.endDate,\n        startTime: body.startTime,\n        endTime: body.endTime,\n        selectedDays : body.selectedDays,\n        description : body.description,\n        title : body.title,\n        unitPrice : body.unitPrice,\n        imgUrl : body.imgUrls,\n        terms : body.terms,\n        businessType : body.businessType,\n        timestamp: timestamp,\n        locationBox: body.locationBox,\n        latNLong: body.latNLong\n    };\n\n    dynamoDBService.addPromo(promoData).then(function (data) {\n        console.log(\"Success\", data);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 200,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": JSON.stringify(promoData)\n            });\n        }).catch(function (err) {\n            console.log(\"Error\", err);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 502,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": err.message\n            });\n        });\n        \n}",
+        "code": "let AWS = require('aws-sdk');\nconst uuidv4 = require('uuid/v4');\nlet dynamoDBService = require('./dynamoDbService');\n\nexports.handler = function(event, context, callback) {\n    let timestamp = Math.round((new Date()).getTime() / 1000);\n    // console.log(timestamp);\n    let body = JSON.parse(event.body);\n    console.log(body)\n    let promoData = {\n        promoId : uuidv4(),\n        vendorId : body.vendorId,\n        offerType : body.offerType,\n        discount : body.discount,\n        startDate : body.startDate,\n        endDate : body.endDate,\n        startTime: body.startTime,\n        endTime: body.endTime,\n        selectedDays : body.selectedDays,\n        description : body.description,\n        title : body.title,\n        unitPrice : body.unitPrice,\n        imgUrl : body.imgUrls,\n        terms : body.terms,\n        businessType : body.businessType,\n        timestamp: timestamp,\n        locationBox: body.locationBox,\n        latNLong: body.latNLong\n    };\n\n    dynamoDBService.addPromo(promoData)\n        .then(function (data) {\n        console.log(\"Success\", data);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 200,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": JSON.stringify(promoData)\n            });\n        }).catch(function (err) {\n            console.log(\"Error\", err);\n            callback(null, {\n                \"isBase64Encoded\": true,\n                \"statusCode\": 502,\n                \"headers\": {\n                    \"Access-Control-Allow-Origin\": \"*\",\n                    \"Access-Control-Allow-Methods\": \"*\"\n                },\n                \"body\": err.message\n            });\n        });\n        \n}",
         "triggers": [
           {
             "resourceName": "apigusEast1HSVendorpromopost",
@@ -56,7 +56,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/dynamoDbService.js",
-        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'promoId': promoData.promoId,\n                'vendorId': promoData.vendorId,\n                'termsNConditions': promoData.terms,\n                'offerType': promoData.offerType,\n                'startDate': promoData.startDate,\n                'endDate': promoData.endDate,\n                'startTime': promoData.startTime,\n                'endTime': promoData.endTime,\n                'selectedDays': promoData.selectedDays,\n                'description': promoData.description,\n                'unitPrice': promoData.unitPrice,\n                'title': promoData.title,\n                'imgUrls': promoData.imgUrl,\n                'discount': promoData.discount,\n                'category': promoData.businessType,\n                'timestamp': promoData.timestamp,\n                'locationBox': promoData.locationBox,\n                'latNLong': promoData.latNLong\n            }\n        }).promise()\n\n\n    },\n\n    deletePromo: function (promoData) {\n        return ddb.delete({\n            TableName: 'Promotions',\n            Key: {\n                'promoId': promoData.promoID,\n                'timestamp': timestamp\n            }\n        }).promise()\n    },\n\n    retrievePromos: function (date) {\n        return ddb.scan({\n            TableName: 'Promotions',\n            ExpressionAttributeValues: {\n                ':date': date\n            },\n            FilterExpression: 'startDate <= :date and endDate >= :date'\n        }).promise()\n    },\n\n    // getVendor: function (vendorId) {\n    //     return ddb.get({\n    //         TableName: 'HS_vendor',\n    //         Key: {\n    //             'vendor_id': vendorId\n    //         }\n    //     }).promise()\n    // }\n}",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        return ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'promoId': promoData.promoId,\n                'vendorId': promoData.vendorId,\n                'termsNConditions': promoData.terms,\n                'offerType': promoData.offerType,\n                'startDate': promoData.startDate,\n                'endDate': promoData.endDate,\n                'startTime': promoData.startTime,\n                'endTime': promoData.endTime,\n                'selectedDays': promoData.selectedDays,\n                'description': promoData.description,\n                'unitPrice': promoData.unitPrice,\n                'title': promoData.title,\n                'imgUrls': promoData.imgUrl,\n                'discount': promoData.discount,\n                'category': promoData.businessType,\n                'timestamp': promoData.timestamp,\n                'locationBox': promoData.locationBox,\n                'latNLong': promoData.latNLong\n            }\n        }).promise()\n\n\n    },\n\n    deletePromo: function (promoData) {\n        return ddb.delete({\n            TableName: 'Promotions',\n            Key: {\n                'promoId': promoData.promoID,\n                'timestamp': timestamp\n            }\n        }).promise()\n    },\n\n    retrievePromos: function (date) {\n        return ddb.scan({\n            TableName: 'Promotions',\n            ExpressionAttributeValues: {\n                ':date': date\n            },\n            FilterExpression: 'startDate <= :date and endDate >= :date'\n        }).promise()\n    },\n\n    // getVendor: function (vendorId) {\n    //     return ddb.get({\n    //         TableName: 'HS_vendor',\n    //         Key: {\n    //             'vendor_id': vendorId\n    //         }\n    //     }).promise()\n    // }\n}",
         "triggers": []
       },
       "b9b3322c-b75d-4484-93c2-c7083fe20a8d": {
@@ -282,7 +282,7 @@
         "type": "DynamoDB",
         "config": {
           "mode": 0,
-          "operation": "scan",
+          "operation": "put",
           "table": {
             "arn": "",
             "name": "Promotions",
@@ -295,10 +295,26 @@
           },
           "parameters": {
             "TableName": "Promotions",
-            "ExpressionAttributeValues": {
-              ":date": "@{date}"
-            },
-            "FilterExpression": "startDate <= :date and endDate >= :date"
+            "Item": {
+              "promoId": "@{promoData.promoId}",
+              "vendorId": "@{promoData.vendorId}",
+              "termsNConditions": "@{promoData.terms}",
+              "offerType": "@{promoData.offerType}",
+              "startDate": "@{promoData.startDate}",
+              "endDate": "@{promoData.endDate}",
+              "startTime": "@{promoData.startTime}",
+              "endTime": "@{promoData.endTime}",
+              "selectedDays": "@{promoData.selectedDays}",
+              "description": "@{promoData.description}",
+              "unitPrice": "@{promoData.unitPrice}",
+              "title": "@{promoData.title}",
+              "imgUrls": "@{promoData.imgUrl}",
+              "discount": "@{promoData.discount}",
+              "category": "@{promoData.businessType}",
+              "timestamp": "@{promoData.timestamp}",
+              "locationBox": "@{promoData.locationBox}",
+              "latNLong": "@{promoData.latNLong}"
+            }
           },
           "validator": {
             "validatableFields": {},
@@ -343,7 +359,7 @@
     "projectVersion": "1.0.0",
     "projectRegion": "us-east-1",
     "platform": "AWS",
-    "lastSave": 1543481209771,
+    "lastSave": 1543481918168,
     "platformRegions": {}
   },
   "VCS_STATE": {

@@ -3,7 +3,7 @@ const uuidv4 = require('uuid/v4');
 let dynamoDBService = require('./dynamoDbService');
 
 exports.handler = function(event, context, callback) {
-    let timestamp = Math.round((new Date()).getTime() / 1000);;
+    let timestamp = Math.round((new Date()).getTime() / 1000);
     // console.log(timestamp);
     let body = JSON.parse(event.body);
     console.log(body)
@@ -28,7 +28,8 @@ exports.handler = function(event, context, callback) {
         latNLong: body.latNLong
     };
 
-    dynamoDBService.addPromo(promoData).then(function (data) {
+    dynamoDBService.addPromo(promoData)
+        .then(function (data) {
         console.log("Success", data);
             callback(null, {
                 "isBase64Encoded": true,

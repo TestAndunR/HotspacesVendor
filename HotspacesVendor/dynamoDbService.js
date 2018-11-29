@@ -3,7 +3,7 @@ const ddb = new AWS.DynamoDB.DocumentClient();
 
 module.exports = {
     addPromo: function (promoData) {
-        ddb.put({
+        return ddb.put({
             TableName: 'Promotions',
             Item: {
                 'promoId': promoData.promoId,
