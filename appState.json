@@ -56,7 +56,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/dynamoDbService.js",
-        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        return ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'promoId': promoData.promoId,\n                'vendorId': promoData.vendorId,\n                'termsNConditions': promoData.terms,\n                'offerType': promoData.offerType,\n                'startDate': promoData.startDate,\n                'endDate': promoData.endDate,\n                'startTime': promoData.startTime,\n                'endTime': promoData.endTime,\n                'selectedDays': promoData.selectedDays,\n                'description': promoData.description,\n                'unitPrice': promoData.unitPrice,\n                'title': promoData.title,\n                'imgUrls': promoData.imgUrl,\n                'discount': promoData.discount,\n                'category': promoData.businessType,\n                'timestamp': promoData.timestamp,\n                'locationBox': promoData.locationBox,\n                'latNLong': promoData.latNLong\n            }\n        }).promise();\n    },\n\n    // getPromo: function (vendor) {\n    //     return ddb.scan({\n    //         TableName: 'Promotions',\n    //         ExpressionAttributeValues: {\n    //             ':vendor': vendor\n    //         },\n    //         FilterExpression: 'vendorId = :vendor'\n    //     }).promise();\n    // },\n\n    // deletePromo: function (promoData) {\n    //     return ddb.delete({\n    //         TableName: 'Promotions',\n    //         Key: {\n    //             'promoId': promoData.promoID,\n    //             'vendorId': promoData.vendorID\n    //         }\n    //     }).promise()\n    // },\n\n    // retrievePromos: function (date) {\n    //     return ddb.scan({\n    //         TableName: 'Promotions',\n    //         ExpressionAttributeValues: {\n    //             ':date': date\n    //         },\n    //         FilterExpression: 'startDate <= :date and endDate >= :date'\n    //     }).promise()\n    // },\n\n    // getVendor: function (vendorId) {\n    //     return ddb.get({\n    //         TableName: 'HS_vendor',\n    //         Key: {\n    //             'vendor_id': vendorId\n    //         }\n    //     }).promise()\n    // }\n}",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    // addPromo: function (promoData) {\n    //     return ddb.put({\n    //         TableName: 'Promotions',\n    //         Item: {\n    //             'promoId': promoData.promoId,\n    //             'vendorId': promoData.vendorId,\n    //             'termsNConditions': promoData.terms,\n    //             'offerType': promoData.offerType,\n    //             'startDate': promoData.startDate,\n    //             'endDate': promoData.endDate,\n    //             'startTime': promoData.startTime,\n    //             'endTime': promoData.endTime,\n    //             'selectedDays': promoData.selectedDays,\n    //             'description': promoData.description,\n    //             'unitPrice': promoData.unitPrice,\n    //             'title': promoData.title,\n    //             'imgUrls': promoData.imgUrl,\n    //             'discount': promoData.discount,\n    //             'category': promoData.businessType,\n    //             'timestamp': promoData.timestamp,\n    //             'locationBox': promoData.locationBox,\n    //             'latNLong': promoData.latNLong\n    //         }\n    //     }).promise();\n    // },\n\n    // getPromo: function (vendor) {\n    //     return ddb.scan({\n    //         TableName: 'Promotions',\n    //         ExpressionAttributeValues: {\n    //             ':vendor': vendor\n    //         },\n    //         FilterExpression: 'vendorId = :vendor'\n    //     }).promise();\n    // },\n\n    // deletePromo: function (promoData) {\n    //     return ddb.delete({\n    //         TableName: 'Promotions',\n    //         Key: {\n    //             'promoId': promoData.promoID,\n    //             'vendorId': promoData.vendorID\n    //         }\n    //     }).promise()\n    // },\n\n    // retrievePromos: function (date) {\n    //     return ddb.scan({\n    //         TableName: 'Promotions',\n    //         ExpressionAttributeValues: {\n    //             ':date': date\n    //         },\n    //         FilterExpression: 'startDate <= :date and endDate >= :date'\n    //     }).promise()\n    // },\n\n    // getVendor: function (vendorId) {\n    //     return ddb.get({\n    //         TableName: 'HS_vendor',\n    //         Key: {\n    //             'vendor_id': vendorId\n    //         }\n    //     }).promise()\n    // }\n}",
         "triggers": []
       },
       "b9b3322c-b75d-4484-93c2-c7083fe20a8d": {
@@ -153,53 +153,6 @@
     ],
     "currentFileId": "c1737e82-f2d7-4d78-83b9-5332ec5c6efd",
     "resources": {
-      "ddbPromotions": {
-        "name": "ddbPromotions",
-        "type": "DynamoDB",
-        "config": {
-          "mode": 0,
-          "operation": "put",
-          "table": {
-            "arn": "",
-            "name": "Promotions",
-            "partitionKey": "promoId",
-            "partitionKeyType": "S",
-            "hasSortKey": true,
-            "sortKey": "timestamp",
-            "sortKeyType": "S",
-            "mode": 0
-          },
-          "parameters": {
-            "TableName": "Promotions",
-            "Item": {
-              "promoId": "@{promoData.promoId}",
-              "vendorId": "@{promoData.vendorId}",
-              "termsNConditions": "@{promoData.terms}",
-              "offerType": "@{promoData.offerType}",
-              "startDate": "@{promoData.startDate}",
-              "endDate": "@{promoData.endDate}",
-              "startTime": "@{promoData.startTime}",
-              "endTime": "@{promoData.endTime}",
-              "selectedDays": "@{promoData.selectedDays}",
-              "description": "@{promoData.description}",
-              "unitPrice": "@{promoData.unitPrice}",
-              "title": "@{promoData.title}",
-              "imgUrls": "@{promoData.imgUrl}",
-              "discount": "@{promoData.discount}",
-              "category": "@{promoData.businessType}",
-              "timestamp": "@{promoData.timestamp}",
-              "locationBox": "@{promoData.locationBox}",
-              "latNLong": "@{promoData.latNLong}"
-            }
-          },
-          "validator": {
-            "validatableFields": {},
-            "validity": true
-          },
-          "valid": true
-        },
-        "globallyEditable": false
-      },
       "apigusEast1HSVendorpromoget": {
         "name": "apigusEast1HSVendorpromoget",
         "type": "API_GATEWAY",
@@ -364,7 +317,7 @@
     "projectVersion": "1.0.0",
     "projectRegion": "us-east-1",
     "platform": "AWS",
-    "lastSave": 1543469491911,
+    "lastSave": 1543469644766,
     "platformRegions": {}
   },
   "VCS_STATE": {
