@@ -28,7 +28,7 @@ module.exports = {
         }).promise()
 
     }
-    
+
 
     // deletePromo: function (promoData) {
     //     return ddb.delete({
