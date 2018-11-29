@@ -289,7 +289,7 @@
             "partitionKey": "promoId",
             "partitionKeyType": "S",
             "hasSortKey": true,
-            "sortKey": "timestamp",
+            "sortKey": "timstamp",
             "sortKeyType": "S",
             "mode": 0
           },
@@ -359,7 +359,7 @@
     "projectVersion": "1.0.0",
     "projectRegion": "us-east-1",
     "platform": "AWS",
-    "lastSave": 1543481918168,
+    "lastSave": 1543482108163,
     "platformRegions": {}
   },
   "VCS_STATE": {
