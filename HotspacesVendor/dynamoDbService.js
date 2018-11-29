@@ -28,35 +28,27 @@ module.exports = {
         }).promise()
 
 
-    // getPromo: function (vendor) {
-    //     return ddb.scan({
-    //         TableName: 'Promotions',
-    //         ExpressionAttributeValues: {
-    //             ':vendor': vendor
-    //         },
-    //         FilterExpression: 'vendorId = :vendor'
-    //     }).promise();
     },
 
-    // deletePromo: function (promoData) {
-    //     return ddb.delete({
-    //         TableName: 'Promotions',
-    //         Key: {
-    //             'promoId': promoData.promoID,
-    //             'vendorId': promoData.vendorID
-    //         }
-    //     }).promise()
-    // },
+    deletePromo: function (promoData) {
+        return ddb.delete({
+            TableName: 'Promotions',
+            Key: {
+                'promoId': promoData.promoID,
+                'timestamp': timestamp
+            }
+        }).promise()
+    },
 
-    // retrievePromos: function (date) {
-    //     return ddb.scan({
-    //         TableName: 'Promotions',
-    //         ExpressionAttributeValues: {
-    //             ':date': date
-    //         },
-    //         FilterExpression: 'startDate <= :date and endDate >= :date'
-    //     }).promise()
-    // },
+    retrievePromos: function (date) {
+        return ddb.scan({
+            TableName: 'Promotions',
+            ExpressionAttributeValues: {
+                ':date': date
+            },
+            FilterExpression: 'startDate <= :date and endDate >= :date'
+        }).promise()
+    },
 
     // getVendor: function (vendorId) {
     //     return ddb.get({
