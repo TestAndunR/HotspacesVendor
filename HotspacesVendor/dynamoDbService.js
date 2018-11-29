@@ -4,7 +4,7 @@ const ddb = new AWS.DynamoDB.DocumentClient();
 module.exports = {
     addPromo: function (promoData) {
         return ddb.put({
-            TableName: 'Promotions',
+            TableName: 'HS_Promotions',
             Item: {
                 'promoId': promoData.promoId,
                 'vendorId': promoData.vendorId,
@@ -32,7 +32,7 @@ module.exports = {
 
     deletePromo: function (promoData) {
         return ddb.delete({
-            TableName: 'Promotions',
+            TableName: 'HS_Promotions',
             Key: {
                 'promoId': promoData.promoID,
                 'timestamp': timestamp
@@ -42,7 +42,7 @@ module.exports = {
 
     retrievePromos: function (date) {
         return ddb.scan({
-            TableName: 'Promotions',
+            TableName: 'HS_Promotions',
             ExpressionAttributeValues: {
                 ':date': date
             },
@@ -61,7 +61,7 @@ module.exports = {
 
     updatePromo: function (updatedData) {
         return ddb.update({
-            TableName: 'Promotions',
+            TableName: 'HS_Promotions',
             Key: {
                 'promoId': updatedData.promoId,
                 'timestamp': updatedData.timestamp
