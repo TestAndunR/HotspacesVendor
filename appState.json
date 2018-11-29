@@ -56,7 +56,7 @@
         "children": [],
         "isRemovable": true,
         "filePath": "HotspacesVendor/dynamoDbService.js",
-        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        return ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'promoId': promoData.promoId,\n                'vendorId': promoData.vendorId,\n                'termsNConditions': promoData.terms,\n                'offerType': promoData.offerType,\n                'startDate': promoData.startDate,\n                'endDate': promoData.endDate,\n                'startTime': promoData.startTime,\n                'endTime': promoData.endTime,\n                'selectedDays': promoData.selectedDays,\n                'description': promoData.description,\n                'unitPrice': promoData.unitPrice,\n                'title': promoData.title,\n                'imgUrls': promoData.imgUrl,\n                'discount': promoData.discount,\n                'category': promoData.businessType,\n                'timestamp': promoData.timestamp,\n                'locationBox': promoData.locationBox,\n                'latNLong': promoData.latNLong\n            }\n        }).promise()\n\n    }\n\n\n    // deletePromo: function (promoData) {\n    //     return ddb.delete({\n    //         TableName: 'Promotions',\n    //         Key: {\n    //             'promoId': promoData.promoID,\n    //             'timestamp': timestamp\n    //         }\n    //     }).promise()\n    // },\n\n    // retrievePromos: function (date) {\n    //     return ddb.scan({\n    //         TableName: 'Promotions',\n    //         ExpressionAttributeValues: {\n    //             ':date': date\n    //         },\n    //         FilterExpression: 'startDate <= :date and endDate >= :date'\n    //     }).promise()\n    // },\n\n    // getVendor: function (vendorId) {\n    //     return ddb.get({\n    //         TableName: 'HS_vendor',\n    //         Key: {\n    //             'vendor_id': vendorId\n    //         }\n    //     }).promise()\n    // }\n}",
+        "code": "let AWS = require('aws-sdk');\nconst ddb = new AWS.DynamoDB.DocumentClient();\n\nmodule.exports = {\n    addPromo: function (promoData) {\n        return ddb.put({\n            TableName: 'Promotions',\n            Item: {\n                'promoId': promoData.promoId,\n                'vendorId': promoData.vendorId,\n                'termsNConditions': promoData.terms,\n                'offerType': promoData.offerType,\n                'startDate': promoData.startDate,\n                'endDate': promoData.endDate,\n                'startTime': promoData.startTime,\n                'endTime': promoData.endTime,\n                'selectedDays': promoData.selectedDays,\n                'description': promoData.description,\n                'unitPrice': promoData.unitPrice,\n                'title': promoData.title,\n                'imgUrls': promoData.imgUrl,\n                'discount': promoData.discount,\n                'category': promoData.businessType,\n                'timestamp': promoData.timestamp,\n                'locationBox': promoData.locationBox,\n                'latNLong': promoData.latNLong\n            }\n        }).promise()\n\n    },\n\n\n    deletePromo: function (promoData) {\n        return ddb.delete({\n            TableName: 'Promotions',\n            Key: {\n                'promoId': promoData.promoID,\n                'timestamp': timestamp\n            }\n        }).promise()\n    },\n\n    retrievePromos: function (date) {\n        return ddb.scan({\n            TableName: 'Promotions',\n            ExpressionAttributeValues: {\n                ':date': date\n            },\n            FilterExpression: 'startDate <= :date and endDate >= :date'\n        }).promise()\n    },\n\n    getVendor: function (vendorId) {\n        return ddb.get({\n            TableName: 'HS_vendor',\n            Key: {\n                'vendor_id': vendorId\n            }\n        }).promise()\n    }\n}",
         "triggers": []
       },
       "b9b3322c-b75d-4484-93c2-c7083fe20a8d": {
@@ -145,11 +145,7 @@
     "deletedFiles": [],
     "rootNode": "dad2d1f5-2c20-4e8d-b5af-f23835e6dbb8",
     "openFiles": [
-      "48a4b4d6-c751-4efe-afe4-921eb254a535",
-      "b9b3322c-b75d-4484-93c2-c7083fe20a8d",
-      "c1737e82-f2d7-4d78-83b9-5332ec5c6efd",
-      "702e5427-94d1-46fd-bf9f-6281f218c269",
-      "4cdece0f-0541-4ae3-b9a7-408f9edd450c"
+      "c1737e82-f2d7-4d78-83b9-5332ec5c6efd"
     ],
     "currentFileId": "c1737e82-f2d7-4d78-83b9-5332ec5c6efd",
     "resources": {
@@ -359,7 +355,7 @@
     "projectVersion": "1.0.0",
     "projectRegion": "us-east-1",
     "platform": "AWS",
-    "lastSave": 1543482807242,
+    "lastSave": 1543483266518,
     "platformRegions": {}
   },
   "VCS_STATE": {

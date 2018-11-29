@@ -27,35 +27,35 @@ module.exports = {
             }
         }).promise()
 
+    },
+
+
+    deletePromo: function (promoData) {
+        return ddb.delete({
+            TableName: 'Promotions',
+            Key: {
+                'promoId': promoData.promoID,
+                'timestamp': timestamp
+            }
+        }).promise()
+    },
+
+    retrievePromos: function (date) {
+        return ddb.scan({
+            TableName: 'Promotions',
+            ExpressionAttributeValues: {
+                ':date': date
+            },
+            FilterExpression: 'startDate <= :date and endDate >= :date'
+        }).promise()
+    },
+
+    getVendor: function (vendorId) {
+        return ddb.get({
+            TableName: 'HS_vendor',
+            Key: {
+                'vendor_id': vendorId
+            }
+        }).promise()
     }
-
-
-    // deletePromo: function (promoData) {
-    //     return ddb.delete({
-    //         TableName: 'Promotions',
-    //         Key: {
-    //             'promoId': promoData.promoID,
-    //             'timestamp': timestamp
-    //         }
-    //     }).promise()
-    // },
-
-    // retrievePromos: function (date) {
-    //     return ddb.scan({
-    //         TableName: 'Promotions',
-    //         ExpressionAttributeValues: {
-    //             ':date': date
-    //         },
-    //         FilterExpression: 'startDate <= :date and endDate >= :date'
-    //     }).promise()
-    // },
-
-    // getVendor: function (vendorId) {
-    //     return ddb.get({
-    //         TableName: 'HS_vendor',
-    //         Key: {
-    //             'vendor_id': vendorId
-    //         }
-    //     }).promise()
-    // }
 }
